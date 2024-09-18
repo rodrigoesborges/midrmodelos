@@ -1,0 +1,229 @@
+---
+title: "Document title"   
+subtitle: "Subtitle of document"
+author: "Author name(s)"
+date: "`r Sys.Date()`"
+### Uncomment the following line if a summary should be shown after the title 
+# abstract: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
+
+### Comment or remove the following two lines if NO references are used
+bibliography: [bib/references.bib, bib/packages.bib] # Path to bibliography files 
+csl: bib/ibict-abnt.csl                            # Path to reference style file
+
+### Settings for rendering the document:
+output: 
+  midrmodelos::word_doc:
+    toc: false
+    language: "pt"  # alternative: "en" for English
+    font: "Lato" # alternative: "Georgia" 
+### Comment the next line if 'language: "en" ' and 'toc: true'
+toc-title: "Sumário"    
+---
+
+```{r setup, include = FALSE}
+# settings --> keep this chunk as it is!
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, 
+  warning = FALSE, error = FALSE, cache = TRUE,
+  fig.path='figs/', cache.path = 'cache/')
+```
+
+```{r load-packages, include = FALSE}
+# Load all your packages that you need later
+library(knitr)
+```
+
+```{r generate-package-refs, include=FALSE}
+# Automatically create a bib database for R packages used above
+knitr::write_bib(
+  x = c(.packages(), 'bookdown', 'rmarkdown', 
+    # Add here now all packages that are loaded above:
+    'knitr'), 
+  file = 'bib/packages.bib')
+```
+
+
+# Introdução
+
+## Cabeçalho YAML
+
+Configure o cabeçalho YAML incluindo os seguintes elementos:
+
+- *title*: Título
+- *subtitle*: Subtítulo; remova a opção completamente, se você não precisar de um subtítulo.
+- *author*: texto de um ou vários autores
+- *date*: Uma data
+- *abstract*: O resumo será mostrado logo após o título em tamanho de fonte menor.
+- *bibliography*: Um caminho para o arquivo de bibliografia a ser usado para referências (arquivo BibTeX *.bib*). O arquivo atual inclui 3 referências fictícias; insira suas referências neste arquivo ou substitua o arquivo pelo seu.
+- *csl*: O estilo é fornecido no arquivo 'ibict-abnt.csl', que adota o estilo de referência da ABNT. Alternativamente, fica disponível também o estilo [SAGE Harvard](https://uk.sagepub.com/sites/default/files/sage_harvard_reference_style_0.pdf) . Basta deixar o arquivo como está.
+- *output*: Os campos aninhados para o campo de saída são baseados nos argumentos da função de saída. Como *midrmodelos::word_doc* é baseado em *bookdown::word_document2*, consulte a página de ajuda para obter mais opções. As configurações padrão atuais são
+    - *toc: FALSE*
+    - *toc_depth: 4*
+    - *number_sections: FALSE*
+    - *highlight: "default"*
+    - *reference_docx: "midr-template"*
+    - *font = "Lato"*
+    - *language: "pt"*
+    - *dpi: 144*
+ * *toc-title*: Se a configuração for *toc: TRUE*, o MS Word gera automaticamente uma tabela de conteúdo com um título em português, e não quiser o nome 'sumário', você deve especificar aqui um título em português. Se o idioma for inglês (*idioma: "en"*), gera-se automaticamente título em inglês.
+
+Por padrão *midrmodelos::word_doc* usa um arquivo de modelo 'midr-template.docx', que é baseado no [arquivo de modelo padrão](https://www.kus.uni-hamburg.de/themen/oeffentlichkeitsarbeit/corporate -design/vorlagen.html) da Universidade de Hamburgo (UHH), exceto pelo tipo de fonte, que é por padrão 'Lato'. Também pode usar a fonte Georgia; para tal, substitua *font = "Lato"* por *font = "Georgia"*.
+
+No entanto, se você quiser usar seu próprio modelo ou o modelo padrão do Word (ou seja, o arquivo Normal.dot), simplesmente forneça o caminho para o arquivo ou escreva "padrão" para o último caso (*reference_docx: "default"*). Para mais opções veja também a documentação da função *bookdown::word_document2*, que é chamada internamente.
+
+Se você definir o idioma como português, um arquivo de configuração chamado '_bookdown.yml' será copiado para o diretório de trabalho, que define os rótulos da legenda da figura e legendas da tabela. Se você quiser usar outros rótulos (por exemplo, 'Fig.' em vez de 'Figura'), sinta-se à vontade para modificar o arquivo.
+
+
+## O pacote bookdown
+
+Se você é novo no trabalho com [bookdown](https://bookdown.org/) ou mesmo com [rmarkdown](https://rmarkdown.rstudio.com/), leia esta documentação. Para saber mais sobre os pacotes *bookdown* e *rmarkdown* em geral, recomenda-se fortemente os dois livros online a seguir:
+
+- [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/) por Yihui Xie, J. J. Allaire e Garrett Grolemund
+- [bookdown:  Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/) por Yihui Xie
+
+
+# Métodos
+
+## Referências cruzadas
+
+Imagens externas e figuras R podem ser referenciadas com '\@ref(fig:<rótulo>)', onde '<rótulo>' é o nome do bloco de código. Esses nomes de rótulos **não devem conter 'underscore' _** para separar as palavras. Em vez disso, use hífens aqui. Observe que as figuras precisam ter uma legenda para serem numeradas e para referência cruzada. A legenda também é definida na opção chunk com 'fig.cap="sua Legenda da Figura"'.
+
+As referências cruzadas a seções individuais podem ser feitas simplesmente colocando o nome da seção entre colchetes, por exemplo um link para a seção [Métodos] é feito através de '[Métodos]'.
+
+As tabelas também requerem um rótulo e legenda de tabela para referência cruzada, assim como as figuras. Mas aqui, a referência cruzada contém um 'tab:' em '\@ref(tab:<nome>)') em vez de um 'fig:'. Além disso, legendas de tabelas produzidas com R não podem ser definidas nas opções de chunk como para figuras, mas diretamente nas funções R (veja exemplos nos [Resultados]).
+
+Isto é, por exemplo, uma referência cruzada para a tabela \@ref(tab:kable1) no capítulo [Using the *knitr* package].
+
+## Tabelas
+
+Se o formato de saída for Word, as tabelas são melhor  geradas usando pacotes R em vez da sintaxe R Markdown. As duas seções a seguir demonstram alguns pacotes úteis.
+
+### Usando o pacote *knitr*
+
+A tabela \@ref(tab:kable1) é um exemplo do uso de *knitr::kable()* para gerar a tabela. A função tem um argumento explícito chamado 'caption' onde você pode colocar o texto da legenda.
+
+```{r kable1}
+# Importe o conjunto de dados da pasta dados/
+tp_unidades <- read.csv("dados/tp_unidades.csv")
+
+# Plota apenas um subconjunto dos dados
+df <- tp_unidades[1:5, 1:6]
+knitr::kable(
+  df,
+  caption = "Esta é uma tabela produzida com knitr::kable().",
+  longtable = TRUE,
+  booktabs = TRUE
+)
+# (as duas últimas opções tornam a tabela um pouco mais legível)
+```
+
+
+### O pacote *huxtable*
+
+Se você estiver interessado em mais adaptações de tabelas para saída do Word, recomendo fortemente uma olhada no pacote R ['huxtable'](https://hughjonesd.github.io/huxtable/index.html). O código a seguir produzirá uma tabela de exemplo se o pacote *huxtable* estiver instalado:
+
+```{r huxtable, eval=ifelse(nzchar(system.file(package = "huxtable")), TRUE, FALSE)}
+library(huxtable)
+df <- tp_unidades[1:5, 1:6]
+ht <- as_hux(df, add_rownames = "modelo")
+ht <- set_outer_borders(ht, 0.4)
+bold(ht)[1,] <- TRUE
+bottom_border(ht)[1,] <- 0.4
+align(ht)[,2:7] <- 'right'
+align(ht)[,1] <- 'left'
+number_format(ht) <- 2
+widdth(ht) <- 1
+font_size(ht) <- 10
+caption(ht) <- "Visão geral das primeiras linhas e colunas no conjunto de dados tp_unidades."
+
+ht
+```
+
+
+## Figuras
+
+As figuras podem ser produzidas diretamente com R e exibidas aqui. Semelhante às imagens externas, as legendas e rótulos das figuras são colocados dentro das opções de referência cruzada (consulte a Fig. \@ref(fig:base-fig)).
+
+```{r base-fig, fig.cap = "Relação entre potência e economia de combustível."}
+plot(tp_unidades$hp, tp_unidades$mpg,
+xlab = "Potência Bruta",
+ylab = "Milhas por galão",
+pc = 19)
+abline(lm(mpg ~ hp, data = tp_unidades), col = "red")
+```
+
+Aqui, para comparação, um boxplot com uma altura de imagem diferente (Fig. \@ref(fig:boxplot-fig)).
+
+```{r boxplot-fig, fig.cap = "Diferenças de combustível entre os tipos de transmissão (0 = automática, 1 = manual).", fig.height = 3}
+boxplot(mpg ~ am, tp_unidades)
+```
+
+A propósito, as ilustrações, independentemente de serem imagens externas ou diagramas criados em R, sempre são exibidas em toda a largura do documento do Word. Infelizmente, as configurações por meio das opções de bloco de código 'fig.height' e 'out.width' não funcionam atualmente no Word! Para imagens externas, ajuste a largura por meio do tamanho do próprio arquivo de imagem.
+
+
+# Adicionando citações e bibliografia
+
+Vincule um documento `.bib` através do cabeçalho YAML, e a bibliografia será impressa no final (como de costume). O estilo de bibliografia padrão é fornecido no arquivo `ibict-abnt.csl`, que adota o estilo de referência da ABNT. Também está disponível arquivo no formato, `sage-harvard.csl` [SAGE Harvard](https://uk.sagepub.com/sites/default/files/sage_harvard_reference_style_0.pdf).
+
+As referências podem ser citadas diretamente no documento usando o R Markdown equivalente ao sistema de citação LaTeX `[@key]`, onde key é a chave de citação na primeira linha da entrada no arquivo .bib. Exemplo: [@Taylor1937]. Para citar várias entradas, separe as chaves por ponto e vírgula (por exemplo, [@Knupp1999; @Kamm2000].
+
+Há também o pacote [citr](https://github.com/crsh/citr), que eu recomendo: *citr* fornece funções e um suplemento RStudio para pesquisar um arquivo BibTeX para criar e inserir citações Markdown formatadas no documento atual. Se você estiver usando o gerenciador de referências [Zotero](https://www.zotero.org/), o suplemento pode acessar seu banco de dados de referências diretamente.
+
+## Programas/Softwares
+
+Se você quiser incluir um parágrafo sobre o software usado, aqui está um exemplo de texto/código para obter o R atual e as versões dos pacotes. O código para criar um arquivo de bibliografia separado chamado 'packages.bib' com todas as referências de pacotes já foi adicionado no início deste script (parte do código 'generate-package-refs').
+
+Todas as análises foram realizadas usando o software estatístico R (versão `r paste(R.Version()$major, R.Version()$minor, sep = ".")`) [@R-base]. Este relatório, incluindo tabelas, foi gerada usando os pacotes 'bookdown' (versão `r packageVersion("bookdown")`) [@R-bookdown], 'rmarkdown' (versão `r packageVersion("rmarkdown")`) [@ R-rmarkdown] e 'knitr' (versão `r packageVersion("knitr")`) [@R-knitr].
+
+
+## Equações matemáticas
+
+Use a matemática normalmente com o símbolo de cifrão `$` no início e no final da equação; no **modo inline** com um cifrão como $E = mc^2$ ou no **modo de exibição** com dois cifrões: $$E = mc^2$$
+
+Observação importante: não deixe espaço entre o '$' e sua notação matemática.
+
+Como alternativa, você pode usar o LaTeX para obter mais controle e quando as equações forem mais complicadas. As equações LaTeX também são numeradas automaticamente se você definir um rótulo no ambiente de equação, o que é útil se você tiver muitas equações e quiser fazer referência cruzada entre elas. O rótulo da equação precisa ser escrito com '\#eq:label' antes do final da equação (consulte a eq. \@ref(eq:mean)):
+
+\begin{equation}
+  \bar{X} = \frac{\sum_{i=1}^n X_i}{n}
+  (\#eq:mean)
+\end{equation}
+
+As fórmulas e explicações correspondentes devem ser integradas na frase e, portanto, terminar com uma vírgula ou ponto. Aqui vai um exemplo:
+
+Se a variável aleatória $Y$ segue uma distribuição normal padrão, ou seja, $Y \sim N(0,1)$, sua função de densidade pode ser descrita com
+
+\begin{equation}
+  f_{Y}(y)=\varphi(y) \stackrel{\mathrm{def}}{=} \frac{1}{\sqrt{2 \pi}} \exp \left\{ -\frac{y ^2}{2} \right\}, y \in \mathbb{R}.
+  (\#eq:densidade-norma)
+\end{equation}
+
+$\pi$ representa o número do círculo ou o número de Ludolph. A função
+
+\begin{equation}
+  F_{Y}(y)=\Phi(y) \stackrel{\mathrm{def}}{=} \int_{-\infty}^y \varphi(x) \,\mathrm{d}x, \quad e \in \mathbb{R}
+  (\#eq:dist-func)
+\end{equation}
+
+representa então a função de distribuição de \@ref(eq:densidade-norma).
+
+A numeração das equações, como em \@ref(eq:densidade-norma), só deve ser feita se as mesmas forem referidas no restante do texto. Principalmente se houver muitas equações no relatório, o uso do LaTeX parece fazer mais sentido.
+
+
+# Resultados
+
+## Saída R
+
+A saída R normalmente é mostrada na fonte monoespaçada (aqui um exemplo com o conjunto de dados `iris`):
+```{r}
+sumário(iris[,1:3])
+```
+
+
+
+<!-- Isso iniciará uma nova página (código LaTeX) -->
+\newpage
+
+
+# Referências
+
+<!-- Todas as referências serão adicionadas aqui automaticamente. -->

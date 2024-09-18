@@ -1,0 +1,36 @@
+Package: midrmodelos
+Type: Package
+Title: Modelos para formatos de saída HTML e PDF/LaTeX projetados para CGGI/SDR/MIDR<S
+Version: 0.1.1.20240917
+Date: 2024-09-03
+Authors@R: c(person("Rodrigo", "Borges", email="rodrigo.emmanuel@saude.gov.br",
+    role=c("aut","cre")))
+Maintainer: Rodrigo Borges <rodrigo.borges@mdr.gov.br>
+Description: Modelos R Markdown e Quarto para documentos HTML, PDF e MS Word, que são usados
+     dentro da Coordenação-Geral de Gestão da Informação da Secretaria de Desenvolvimento Regional,
+     do Ministério da Integração e Desenvolvimento Regional do Brasil.O pacote visa incentivar
+     pesquisa reproduzível usando sintaxe Markdown simples enquanto incorpora todo o código R para
+     produzir peças e análises também. Fortemente baseado no trabalho realizado por Saskia Otto no pacote UHHformats.
+License: GPL3.0
+Encoding: UTF-8
+Depends:
+    R(>= 4.0.0)
+LazyData: true
+Imports: 
+    bookdown,
+    htmltools,
+    knitr,
+    rmarkdown (>= 2.11),
+    tinytex (>= 0.33),
+    utils
+Suggests:
+    huxtable,
+    jsonlite,
+    kableExtra,
+    plotly,
+    quarto,
+    xtable
+SystemRequirements: pandoc (>= 2.1) - http://pandoc.org
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2

@@ -1,0 +1,4 @@
+name: Simple Word document
+description: >
+ Modelo para criar um documento simples baseado no Microsoft Word adequado para relatórios curtos e tarefas de capacitação (em inglês, alemão ou português*). A função subjacente é um wrapper de bookdown::word_document2.
+create_dir: true

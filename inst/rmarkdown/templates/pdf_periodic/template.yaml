@@ -1,0 +1,6 @@
+name: Periodic PDF report
+description: >
+ Template for creating simple PDF/LaTeX-based document suitable for
+ short reports (in Portuguese/English). The underlying function
+ is a wrapper of rmarkdown::pdf_document.
+create_dir: true
