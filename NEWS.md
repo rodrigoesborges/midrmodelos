@@ -1,3 +1,7 @@
+# midrmodelos 0.2.2
+
+* melhorias e ajustes modelo padrão para Georgia e Lato - prot imagem de fundo
+
 # midrmodelos 0.2.1
 
 * melhorias e ajustes modelo padrão para Georgia

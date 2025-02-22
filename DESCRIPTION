@@ -1,7 +1,7 @@
 Package: midrmodelos
 Type: Package
 Title: Modelos para formatos de saída HTML e PDF/LaTeX projetados para CGGI/SDR/MIDR<S
-Version: 0.2.1.20250108
+Version: 0.2.2.20250218
 Date: 2024-09-03
 Authors@R: c(person("Rodrigo", "Borges", email="rodrigo.emmanuel@saude.gov.br",
     role=c("aut","cre")))
